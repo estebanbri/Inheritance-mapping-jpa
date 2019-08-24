@@ -1,0 +1,1 @@
+In this strategy, tables are created as per class but related by foreign key. So there are no duplicate columns.

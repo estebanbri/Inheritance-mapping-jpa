@@ -1,0 +1,1 @@
+In case of table per concrete class, tables are created as per class. But duplicate column is added in subclass tables.
