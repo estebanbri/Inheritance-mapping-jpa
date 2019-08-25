@@ -80,7 +80,7 @@ public class Dao {
         em.persist(contract);             // Persistece State
         contract.setPay_per_hour(144F);   // Persistece State
 
-        em.detach(contract);              // Detached State (cuando se ejecuta commit() se hace un flush() y el objeto pasa a estado detached)
+        em.detach(contract);              // Detached State (session.close() hace que la entity pase a estado detached)
 
         em.remove(contract);              // Removed State
 
