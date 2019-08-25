@@ -67,4 +67,22 @@ public class Dao {
         em.persist(regular);
         em.persist(contract);
     }
+
+    @Transactional
+    public void a(){
+
+        Contract_Employee3 contract = new Contract_Employee3(); // Transient State
+        contract.setName("Andres");                             // Transient State
+        contract.setContract_duration("12 meses");              // Transient State
+        contract.setPay_per_hour(15F);                          // Transient State
+
+
+        em.persist(contract);             // Persistece State
+        contract.setPay_per_hour(144F);   // Persistece State
+
+        em.detach(contract);              // Detached State (cuando se ejecuta commit() se hace un flush() y el objeto pasa a estado detached)
+
+        em.remove(contract);              // Removed State
+
+    }
 }
