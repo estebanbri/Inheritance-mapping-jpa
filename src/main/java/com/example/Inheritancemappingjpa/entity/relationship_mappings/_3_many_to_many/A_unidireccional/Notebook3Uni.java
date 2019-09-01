@@ -1,17 +1,26 @@
 package com.example.Inheritancemappingjpa.entity.relationship_mappings._3_many_to_many.A_unidireccional;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-public class Notebook3Uni {
+//@Entity
+public class Notebook3Uni implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+
     private String nombre;
+
+    public Notebook3Uni() {
+    }
+
+    public Notebook3Uni(String nombre) {
+        this.nombre = nombre;
+    }
 
     public Long getId() {
         return id;

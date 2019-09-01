@@ -1,5 +1,7 @@
 package com.example.Inheritancemappingjpa.entity.relationship_mappings._3_many_to_many.B_bidireccional;
 
+import com.example.Inheritancemappingjpa.entity.relationship_mappings._2_one_to_many.B_bidireccional.Notebook2Bi;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,10 @@ public class Alumno3Bi {
 
     private String nombre;
 
-    @ManyToMany(mappedBy = "alumnos")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "ALUMNO_NOTEBOOK",
+            joinColumns = { @JoinColumn(name = "ALUMNO_ID") },
+            inverseJoinColumns = { @JoinColumn(name = "NOTEBOOK_ID") })
     private List<Notebook3Bi> notebooks = new ArrayList<>();
 
     public Long getId() {
@@ -35,6 +40,11 @@ public class Alumno3Bi {
 
     public void setNotebook(List<Notebook3Bi> notebooks) {
         this.notebooks = notebooks;
+    }
+
+    public void addNotebook(Notebook3Bi notebook) {
+        notebooks.add(notebook);
+        notebook.getAlumnos().add(this);
     }
 
     @Override

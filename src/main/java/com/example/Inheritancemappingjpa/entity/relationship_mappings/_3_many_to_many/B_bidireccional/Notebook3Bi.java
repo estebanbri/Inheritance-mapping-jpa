@@ -15,8 +15,15 @@ public class Notebook3Bi {
 
     private String nombre;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "notebooks")
     private List<Alumno3Bi> alumnos = new ArrayList<>();
+
+    public Notebook3Bi() {
+    }
+
+    public Notebook3Bi(String nombre) {
+        this.nombre = nombre;
+    }
 
     public Long getId() {
         return id;

@@ -1,11 +1,12 @@
 package com.example.Inheritancemappingjpa.entity.relationship_mappings._2_one_to_many.B_bidireccional;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-public class Alumno2Bi {
+//@Entity
+public class Alumno2Bi implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -13,7 +14,7 @@ public class Alumno2Bi {
 
     private String nombre;
 
-    @OneToMany(mappedBy = "alumno")
+    @OneToMany(mappedBy = "alumno", cascade = CascadeType.ALL)
     private List<Notebook2Bi> notebooks = new ArrayList<>();
 
     public Long getId() {
@@ -29,20 +30,9 @@ public class Alumno2Bi {
         this.nombre = nombre;
     }
 
-    public List<Notebook2Bi> getNotebook() {
-        return notebooks;
+    public void addNotebook(Notebook2Bi notebook) {
+        notebooks.add(notebook);
+        notebook.setAlumno(this);
     }
 
-    public void setNotebook(List<Notebook2Bi> notebooks) {
-        this.notebooks = notebooks;
-    }
-
-    @Override
-    public String toString() {
-        return "Alumno1{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", notebooks=" + notebooks +
-                '}';
-    }
 }

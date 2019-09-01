@@ -6,11 +6,25 @@ import com.example.Inheritancemappingjpa.entity.inheritance_mapping_strategies._
 import com.example.Inheritancemappingjpa.entity.inheritance_mapping_strategies._2_Table_Per_Concrete_class.table_per_class.Regular_Employee2;
 import com.example.Inheritancemappingjpa.entity.inheritance_mapping_strategies._3_Table_Per_Subclass.joined.Contract_Employee3;
 import com.example.Inheritancemappingjpa.entity.inheritance_mapping_strategies._3_Table_Per_Subclass.joined.Regular_Employee3;
+import com.example.Inheritancemappingjpa.entity.relationship_mappings._1_one_to_one.A_unidireccional.Alumno1Uni;
+import com.example.Inheritancemappingjpa.entity.relationship_mappings._1_one_to_one.A_unidireccional.Notebook1Uni;
+import com.example.Inheritancemappingjpa.entity.relationship_mappings._1_one_to_one.B_bidireccional.Alumno1Bi;
+import com.example.Inheritancemappingjpa.entity.relationship_mappings._1_one_to_one.B_bidireccional.Notebook1Bi;
+import com.example.Inheritancemappingjpa.entity.relationship_mappings._2_one_to_many.A_unidireccional.Alumno2Uni;
+import com.example.Inheritancemappingjpa.entity.relationship_mappings._2_one_to_many.A_unidireccional.Notebook2Uni;
+import com.example.Inheritancemappingjpa.entity.relationship_mappings._2_one_to_many.B_bidireccional.Alumno2Bi;
+import com.example.Inheritancemappingjpa.entity.relationship_mappings._2_one_to_many.B_bidireccional.Notebook2Bi;
+import com.example.Inheritancemappingjpa.entity.relationship_mappings._3_many_to_many.A_unidireccional.Alumno3Uni;
+import com.example.Inheritancemappingjpa.entity.relationship_mappings._3_many_to_many.A_unidireccional.Notebook3Uni;
+import com.example.Inheritancemappingjpa.entity.relationship_mappings._3_many_to_many.B_bidireccional.Alumno3Bi;
+import com.example.Inheritancemappingjpa.entity.relationship_mappings._3_many_to_many.B_bidireccional.Notebook3Bi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class Dao {
@@ -85,4 +99,130 @@ public class Dao {
         em.remove(contract);              // Removed State
 
     }
+
+    @Transactional
+    public void test_ONE_TO_ONE_UNIDIRECCIONAL_PERSIST(){
+        Alumno1Uni alumno = new Alumno1Uni();
+        Notebook1Uni lenovo = new Notebook1Uni();
+        lenovo.setNombre("Lenovo");
+
+        alumno.setNombre("Esteban");
+        alumno.setNotebook(lenovo);
+
+        em.persist(alumno);
+    }
+
+    @Transactional
+    public void test_ONE_TO_ONE_UNIDIRECCIONAL_SELECT(){
+        Alumno1Uni alumno = em.find(Alumno1Uni.class, 1L);
+        System.out.println(alumno.getId());
+    }
+
+    @Transactional
+    public void test_ONE_TO_ONE_BIDIRECCIONAL_PERSIST(){
+        Alumno1Bi alumno = new Alumno1Bi();
+        Notebook1Bi lenovo = new Notebook1Bi();
+        lenovo.setNombre("Lenovo");
+
+        alumno.setNombre("Esteban");
+        alumno.setNotebook(lenovo);
+
+        em.persist(alumno);
+    }
+
+    @Transactional
+    public void test_ONE_TO_ONE_BIDIRECCIONAL_SELECT(){
+        Alumno1Bi alumno = em.find(Alumno1Bi.class, 1L);
+        Notebook1Bi notebook = em.find(Notebook1Bi.class, 2L);
+
+        System.out.println(alumno.getId());
+        System.out.println(notebook.getAlumno().getNombre());
+    }
+
+    @Transactional
+    public void test_ONE_TO_MANY_UNIDIRECCIONAL_PERSIST(){
+        Alumno2Uni alumno = new Alumno2Uni();
+        List<Notebook2Uni> notebooks = Arrays.asList(
+                new Notebook2Uni("Lenovo"),
+                new Notebook2Uni("Apple")
+                );
+
+        alumno.setNombre("Esteban");
+        alumno.setNotebooks(notebooks);
+
+        em.persist(alumno);
+    }
+
+    @Transactional
+    public void test_ONE_TO_MANY_UNIDIRECCIONAL_SELECT(){
+        Alumno2Bi alumno = em.find(Alumno2Bi.class, 1L);
+        System.out.println(alumno.getNombre());
+    }
+
+    @Transactional
+    public void test_ONE_TO_MANY_BIDIRECCIONAL_PERSIST(){
+        Alumno2Bi alumno = new Alumno2Bi();
+
+        alumno.setNombre("Esteban");
+        alumno.addNotebook(new Notebook2Bi("Lenovo"));
+        alumno.addNotebook(new Notebook2Bi("Apple"));
+
+        em.persist(alumno);
+    }
+
+    @Transactional
+    public void test_ONE_TO_MANY_BIDIRECCIONAL_SELECT(){
+        Alumno2Bi alumno = em.find(Alumno2Bi.class, 1L);
+        Notebook2Bi lenovo = em.find(Notebook2Bi.class, 2L);
+        System.out.println(alumno.getNombre());
+        System.out.println(lenovo.getAlumno().getNombre());
+    }
+
+    @Transactional
+    public void test_MANY_TO_MANY_UNIDIRECCIONAL_PERSIST(){
+        Alumno3Uni alumno = new Alumno3Uni();
+        List<Notebook3Uni> notebooks = Arrays.asList(
+                new Notebook3Uni("Lenovo"),
+                new Notebook3Uni("Apple")
+        );
+
+        alumno.setNombre("Esteban");
+        alumno.setNotebooks(notebooks);
+
+        em.persist(alumno);
+    }
+
+    @Transactional
+    public void test_MANY_TO_MANY_UNIDIRECCIONAL_SELECT(){
+        Alumno3Uni alumno = em.find(Alumno3Uni.class, 1L);
+        System.out.println(alumno.getNombre());
+    }
+
+    @Transactional
+    public void test_MANY_TO_MANY_BIDIRECCIONAL_PERSIST(){
+        Alumno3Bi alumno1 = new Alumno3Bi();
+        Alumno3Bi alumno2 = new Alumno3Bi();
+        Notebook3Bi lenovo = new Notebook3Bi("Lenovo");
+        Notebook3Bi apple = new Notebook3Bi("Apple");
+
+        alumno1.setNombre("Esteban");
+        alumno2.setNombre("Andres");
+
+        alumno1.addNotebook(lenovo);
+        alumno1.addNotebook(apple);
+        alumno2.addNotebook(lenovo);
+        alumno2.addNotebook(apple);
+
+        em.persist(alumno1);
+        em.persist(alumno2);
+    }
+
+    @Transactional
+    public void test_MANY_TO_MANY_BIDIRECCIONAL_SELECT(){
+        Alumno3Bi alumno = em.find(Alumno3Bi.class, 1L);
+        Notebook3Bi lenovo = em.find(Notebook3Bi.class, 2L);
+        System.out.println(alumno.getNombre());
+        lenovo.getAlumnos().forEach(alumn -> System.out.println(alumn.getNombre()));
+    }
+
 }

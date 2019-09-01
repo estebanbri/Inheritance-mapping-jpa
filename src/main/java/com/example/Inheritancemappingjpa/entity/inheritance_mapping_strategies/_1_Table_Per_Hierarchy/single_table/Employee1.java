@@ -2,7 +2,7 @@ package com.example.Inheritancemappingjpa.entity.inheritance_mapping_strategies.
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 @Table(name = "EMPLOYEE1")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 public abstract class Employee1 {

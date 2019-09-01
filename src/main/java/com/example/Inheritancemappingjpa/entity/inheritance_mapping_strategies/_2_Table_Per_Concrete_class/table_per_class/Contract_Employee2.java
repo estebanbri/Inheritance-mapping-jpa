@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Entity
+//@Entity
 @Table(name="CONTRACT_EMPLOYEE2")
 public class Contract_Employee2 extends Employee2 {
 

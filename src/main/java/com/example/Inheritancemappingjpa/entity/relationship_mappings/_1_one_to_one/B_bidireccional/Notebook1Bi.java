@@ -1,9 +1,10 @@
 package com.example.Inheritancemappingjpa.entity.relationship_mappings._1_one_to_one.B_bidireccional;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
-@Entity
-public class Notebook1Bi {
+//@Entity
+public class Notebook1Bi implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -12,6 +13,7 @@ public class Notebook1Bi {
     private String nombre;
 
     @OneToOne
+    @JoinColumn(name = "ALUMNO_ID")
     private Alumno1Bi alumno;
 
     public Long getId() {

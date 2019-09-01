@@ -2,7 +2,7 @@ package com.example.Inheritancemappingjpa.entity.inheritance_mapping_strategies.
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 @Table(name="REGULAR_EMPLOYEE3")
 public class Regular_Employee3 extends Employee3 {
 
