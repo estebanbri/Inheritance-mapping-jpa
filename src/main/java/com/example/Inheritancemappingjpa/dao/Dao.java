@@ -1,23 +1,23 @@
 package com.example.Inheritancemappingjpa.dao;
 
-import com.example.Inheritancemappingjpa.entity.inheritance_mapping_strategies._1_Table_Per_Hierarchy.single_table.Contract_Employee1;
-import com.example.Inheritancemappingjpa.entity.inheritance_mapping_strategies._1_Table_Per_Hierarchy.single_table.Regular_Employee1;
-import com.example.Inheritancemappingjpa.entity.inheritance_mapping_strategies._2_Table_Per_Concrete_class.table_per_class.Contract_Employee2;
-import com.example.Inheritancemappingjpa.entity.inheritance_mapping_strategies._2_Table_Per_Concrete_class.table_per_class.Regular_Employee2;
-import com.example.Inheritancemappingjpa.entity.inheritance_mapping_strategies._3_Table_Per_Subclass.joined.Contract_Employee3;
-import com.example.Inheritancemappingjpa.entity.inheritance_mapping_strategies._3_Table_Per_Subclass.joined.Regular_Employee3;
-import com.example.Inheritancemappingjpa.entity.relationship_mappings._1_one_to_one.A_unidireccional.Alumno1Uni;
-import com.example.Inheritancemappingjpa.entity.relationship_mappings._1_one_to_one.A_unidireccional.Notebook1Uni;
-import com.example.Inheritancemappingjpa.entity.relationship_mappings._1_one_to_one.B_bidireccional.Alumno1Bi;
-import com.example.Inheritancemappingjpa.entity.relationship_mappings._1_one_to_one.B_bidireccional.Notebook1Bi;
-import com.example.Inheritancemappingjpa.entity.relationship_mappings._2_one_to_many.A_unidireccional.Alumno2Uni;
-import com.example.Inheritancemappingjpa.entity.relationship_mappings._2_one_to_many.A_unidireccional.Notebook2Uni;
-import com.example.Inheritancemappingjpa.entity.relationship_mappings._2_one_to_many.B_bidireccional.Alumno2Bi;
-import com.example.Inheritancemappingjpa.entity.relationship_mappings._2_one_to_many.B_bidireccional.Notebook2Bi;
-import com.example.Inheritancemappingjpa.entity.relationship_mappings._3_many_to_many.A_unidireccional.Alumno3Uni;
-import com.example.Inheritancemappingjpa.entity.relationship_mappings._3_many_to_many.A_unidireccional.Notebook3Uni;
-import com.example.Inheritancemappingjpa.entity.relationship_mappings._3_many_to_many.B_bidireccional.Alumno3Bi;
-import com.example.Inheritancemappingjpa.entity.relationship_mappings._3_many_to_many.B_bidireccional.Notebook3Bi;
+import com.example.Inheritancemappingjpa.conceptos.inheritance_mapping_strategies._1_Table_Per_Hierarchy.single_table.Contract_Employee1;
+import com.example.Inheritancemappingjpa.conceptos.inheritance_mapping_strategies._1_Table_Per_Hierarchy.single_table.Regular_Employee1;
+import com.example.Inheritancemappingjpa.conceptos.inheritance_mapping_strategies._2_Table_Per_Concrete_class.table_per_class.Contract_Employee2;
+import com.example.Inheritancemappingjpa.conceptos.inheritance_mapping_strategies._2_Table_Per_Concrete_class.table_per_class.Regular_Employee2;
+import com.example.Inheritancemappingjpa.conceptos.inheritance_mapping_strategies._3_Table_Per_Subclass.joined.Contract_Employee3;
+import com.example.Inheritancemappingjpa.conceptos.inheritance_mapping_strategies._3_Table_Per_Subclass.joined.Regular_Employee3;
+import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._1_one_to_one.A_unidireccional.Alumno1Uni;
+import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._1_one_to_one.A_unidireccional.Notebook1Uni;
+import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._1_one_to_one.B_bidireccional.Alumno1Bi;
+import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._1_one_to_one.B_bidireccional.Notebook1Bi;
+import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._2_one_to_many.B_bidireccional.Alumno2Bi;
+import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._2_one_to_many.B_bidireccional.Notebook2Bi;
+import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._3_many_to_many.A_unidireccional.Alumno3Uni;
+import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._3_many_to_many.A_unidireccional.Notebook3Uni;
+import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._3_many_to_many.B_bidireccional.Alumno3Bi;
+import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._3_many_to_many.B_bidireccional.Notebook3Bi;
+import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._2_one_to_many.A_unidireccional.Alumno2Uni;
+import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._2_one_to_many.A_unidireccional.Notebook2Uni;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -155,7 +155,7 @@ public class Dao {
 
     @Transactional
     public void test_ONE_TO_MANY_UNIDIRECCIONAL_SELECT(){
-        Alumno2Bi alumno = em.find(Alumno2Bi.class, 1L);
+        Alumno2Uni alumno = em.find(Alumno2Uni.class, 1L);
         System.out.println(alumno.getNombre());
     }
 
