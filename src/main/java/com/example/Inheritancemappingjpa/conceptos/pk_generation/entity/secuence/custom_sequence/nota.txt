@@ -1,0 +1,5 @@
+SECUENCIAS: "alumno_seq" y "profesor_seq"
+Cada entidad va a tener su propia secuencia.
+El atributo allocationSize = 10, significa que hibernate va a hacer unicamente dos consultas a la secuencia
+para el valor minimo, y el valor maximo separada de a 10 valores. Y hibernate internamente va a ir incrementando
+hasta llegar al valor maximo.

@@ -1,0 +1,3 @@
+SECUENCIA: HIBERNATE_SECUENCE
+Unica secuencia compartida por todas las entidades.
+Desventaja: el numero de id's va a ser exponencial al tener una unica secuencia compartida por todas las N entidades

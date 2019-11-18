@@ -6,6 +6,7 @@ import com.example.Inheritancemappingjpa.conceptos.inheritance_mapping_strategie
 import com.example.Inheritancemappingjpa.conceptos.inheritance_mapping_strategies._2_Table_Per_Concrete_class.table_per_class.Regular_Employee2;
 import com.example.Inheritancemappingjpa.conceptos.inheritance_mapping_strategies._3_Table_Per_Subclass.joined.Contract_Employee3;
 import com.example.Inheritancemappingjpa.conceptos.inheritance_mapping_strategies._3_Table_Per_Subclass.joined.Regular_Employee3;
+import com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.secuence.default_secuence.Alumno;
 import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._1_one_to_one.A_unidireccional.Alumno1Uni;
 import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._1_one_to_one.A_unidireccional.Notebook1Uni;
 import com.example.Inheritancemappingjpa.conceptos.relationship_mappings._1_one_to_one.B_bidireccional.Alumno1Bi;
@@ -223,6 +224,60 @@ public class Dao {
         Notebook3Bi lenovo = em.find(Notebook3Bi.class, 2L);
         System.out.println(alumno.getNombre());
         lenovo.getAlumnos().forEach(alumn -> System.out.println(alumn.getNombre()));
+    }
+
+    @Transactional
+    public void test_PK_GENERATION_TYPE_IDENTITY_PERSIST(){
+        com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.identity.Alumno alumno = new com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.identity.Alumno();
+        alumno.setNombre("Esteban");
+
+        com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.identity.Profesor profesor = new com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.identity.Profesor();
+        profesor.setNombre("Jose");
+
+        em.persist(alumno);
+        em.persist(profesor);
+    }
+
+    @Transactional
+    public void test_PK_GENERATION_TYPE_DEFAULT_SECUENCE_PERSIST(){
+        com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.secuence.default_secuence.Alumno alumno = new com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.secuence.default_secuence.Alumno();
+        alumno.setNombre("Esteban");
+
+        com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.secuence.default_secuence.Profesor profesor = new com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.secuence.default_secuence.Profesor();
+        profesor.setNombre("Jose");
+
+        em.persist(alumno); // call next value for hibernate_sequence (id = 1)
+        em.persist(profesor); // call next value for hibernate_sequence (id = 2)
+    }
+
+    @Transactional
+    public void test_PK_GENERATION_TYPE_CUSTOM_SECUENCE_PERSIST(){
+        com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.secuence.custom_sequence.Alumno alumno = new com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.secuence.custom_sequence.Alumno();
+        alumno.setNombre("Esteban");
+
+        com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.secuence.custom_sequence.Profesor profesor = new com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.secuence.custom_sequence.Profesor();
+        profesor.setNombre("Jose");
+
+        em.persist(alumno); // 1° call next value for alumno_seq (1) y 2° call next value for alumno_seq (10) (id = 1)
+        em.persist(profesor); // 1° call next value for profesor_seq (1) y 2° call next value for profesor_seq (10) (id = 1)
+    }
+
+    @Transactional
+    public void test_PK_GENERATION_TYPE_TABLE_PERSIST(){
+        com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.table.Alumno alumno = new com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.table.Alumno();
+        alumno.setNombre("Esteban");
+
+        com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.table.Profesor profesor = new com.example.Inheritancemappingjpa.conceptos.pk_generation.entity.table.Profesor();
+        profesor.setNombre("Jose");
+
+        em.persist(alumno);
+        // Paso 1 (obtener el valor actual): select next_val from hibernate_seq where sequence_name=? for update (0)
+        // Paso 2 (actualizar el valor siguiente): : update hibernate_seq set next_val=?where next_val=? and sequence_name=? (1)
+        // (id = 1)
+        em.persist(profesor);
+        // Paso 1 (obtener el valor actual): select next_val from hibernate_seq where sequence_name=? for update (0)
+        // Paso 2 (actualizar el valor siguiente): : update hibernate_seq set next_val=?where next_val=? and sequence_name=? (1)
+        // (id = 1)
     }
 
 }

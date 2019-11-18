@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+//@Entity
 public class Alumno2Uni implements Serializable {
 
     @Id

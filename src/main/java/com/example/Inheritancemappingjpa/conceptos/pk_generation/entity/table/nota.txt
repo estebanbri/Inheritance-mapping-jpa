@@ -1,0 +1,28 @@
+TABLE: "hibernate_seq" | OBJETIVO -> SIMULAR UNA SECUENCE
+Cada tupla de la tabla va a ser asi:
+| sequence_name | valor |
+Raramente usado, es poco performante.
+La unica ventaja es que simula desde el lado hibernate el uso de secuencias para el caso
+de que la base de datos no soporte secuencias. (Pero igualmente si no soporta secuencias
+igualmente andate por un tipo IDENTITY)
+En resumen este ni combiente usarlo.
+
+EXTRA QUERYS GENERADAS POR ESTE GENERATION TYPE TABLE PARA SABER EL VALOR ACTUAL DE LA SECUENCIA Y ACTUALIZAR EL VALOR SIGUIENTE DE LA SECUENCIA EN LA TABAL DE DB:
+Y ADEMAS SETEA UN PESSIMISTIC_WRITE lock usando la clausula "for update " esto previene de que todas las demas transacciones de la db puedan LEER-ACTUALIZAR-ELIMIAR este registro de la db hasta que el lock es liberado luego de commitear el insert de tu entidad
+Para todos los insert va a hacer estas 2 querys antes:
+
+// Paso 1 (obtener el valor actual y set un PESSIMISTIC_WRITE lock): select next_val from hibernate_seq where sequence_name=? for update (SETEA UN WRITE LOCK)
+// Paso 2 (actualizar el valor siguiente): : update hibernate_seq set next_val=?where next_val=? and sequence_name=?
+// Paso 3 insertar tu entidad y commitear, y luego liberar WRITE_LOCK.
+
+Esto requiere el uso de pessimitic locks los cuales ponen las transacciones en orden secuencial y enlentence tu app.
+
+The table generator benefits from JDBC batching, but every table sequence update incurs three steps:
+Step 1: The lock statement is executed to ensure that the same sequence value is not allocated for two concurrent transactions.
+Step 2: The current value is incremented in the data access layer.
+Step 3: The new value is saved back to the database and the secondary transaction is committed so to release the row-level lock.
+
+Pessimistic Locking
+In case of pessimistic locking, JPA creates a transaction that obtains a lock on the data until the transaction is completed. This prevents other transactions from making any updates to the entity until the lock is released.
+Pessimistic locking can be very useful when the data is frequently accessed and modified by multiple transactions.
+Keep in mind that using pessimistic locking may result in decreased application performance, if the entities are not susceptible to frequent modifications.
